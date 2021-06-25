@@ -2,6 +2,7 @@
 <?php 
   $link1= "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 ?>
+<!-- session code -->
 <?php 
 
 session_start();
@@ -11,6 +12,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 ?>
+<!-- Add a new project -->
 <?php
   include 'conn.php';
   
@@ -53,7 +55,7 @@ if (!isset($_SESSION['username'])) {
   
   }
 ?>
-
+<!-- edit or update a project -->
 <?php
   include 'conn.php';
   if(isset($_POST['submitupdate']))
@@ -72,41 +74,35 @@ if (!isset($_SESSION['username'])) {
     $sql = "UPDATE `project` SET `project_name` = '$projectname',`project_desc` = '$projectdesc',`project_team` = '$team',`project_status` = '$projectstatus',`client_company` = '$clientcompany', `project_leader` = '$projectleader' WHERE `project`.`project_id` = '$id'";
     if($con->query($sql)==True)
     {
-        $checksql="SELECT * FROM `project_budget`  WHERE `project_budget`.`project_id` ='$id'";  
-        $check = mysqli_query($con, $checksql);
-        $checkresult= mysqli_fetch_array($check);
-        if(mysqli_num_rows( $check )>0){
-            $sql2="UPDATE `project_budget` SET `estimated_budget` = '$estimatedbudget',`amount_spent` = '$spentbudget',`estimated_duration` = '$estimatedduration' WHERE `project_budget`.`project_id` = '$id'";
-            if($con->query($sql2)==True)
-            {
-                header("Location: index.php");
-            }
-            else
-            {
-              $add=true;
-                echo "ERROR $sql2 <br> $con->error";
-            }
+      $checksql="SELECT * FROM `project_budget`  WHERE `project_budget`.`project_id` ='$id'";  
+      $check = mysqli_query($con, $checksql);
+      $checkresult= mysqli_fetch_array($check);
+      if(mysqli_num_rows( $check )>0){
+        $sql2="UPDATE `project_budget` SET `estimated_budget` = '$estimatedbudget',`amount_spent` = '$spentbudget',`estimated_duration` = '$estimatedduration' WHERE `project_budget`.`project_id` = '$id'";
+        if($con->query($sql2)==True)
+        {
+          header("Location: index.php");
         }
         else
         {
-            $sqlinsert="INSERT INTO `project_budget` (`project_id`, `estimated_budget`, `amount_spent`, `estimated_duration`) VALUES ('$id', '$estimatedbudget', '$spentbudget', '$estimatedduration')";
-            $insert= mysqli_query($con, $sqlinsert);
-            header("Location: index.php");
-        }        
-
-      
+          $add=true;
+          echo "ERROR $sql2 <br> $con->error";
+        }
+      }
+      else
+      {
+        $sqlinsert="INSERT INTO `project_budget` (`project_id`, `estimated_budget`, `amount_spent`, `estimated_duration`) VALUES ('$id', '$estimatedbudget', '$spentbudget', '$estimatedduration')";
+        $insert= mysqli_query($con, $sqlinsert);
+        header("Location: index.php");
+      }        
     }
     else
     {
-        echo "ERROR $sql <br> $con->error";
+      echo "ERROR $sql <br> $con->error";
     }
-
-    
-      
-  
   }
 ?>
-
+<!-- project Delete -->
 <?php
   include 'conn.php';
   $delete=False;
@@ -134,6 +130,60 @@ if (!isset($_SESSION['username'])) {
       echo "Error deleting record: " . mysqli_error($con);
       }
   }
+?>
+<!-- upload file on project detail page -->
+<?php
+include 'conn.php';
+if(isset($_POST['uploadfile']))
+{
+  $id = $_GET['prodetail'];
+
+    $targetdir = "uploads/";
+  
+  $team= implode(",",$_FILES['upload']['name']);
+  
+  foreach ($_FILES['upload']['name'] as $key => $name){
+    $statusMsg = '';  
+		$newFilename =$name;
+    $targetfilepath = $targetdir . $newFilename;
+    $filetype = pathinfo($targetfilepath,PATHINFO_EXTENSION);
+    $statussql=1;
+    if (file_exists($targetfilepath)) {
+      $statusMsg = 'file exists';
+    
+    }  
+    if($statusMsg == '')
+    {
+      $allowtypes = array('jpg','png','jpeg','gif');
+      if(in_array($filetype, $allowtypes)){
+        // Upload file to server
+        if(move_uploaded_file($_FILES['upload']['tmp_name'][$key], 'uploads/' . $newFilename))
+        {
+          echo "<script>alert('done')</script>";     
+        }
+        else
+        {
+          echo "<script>alert('error')</script>";
+          $statussql=0;
+        }
+      }  
+      else
+      {
+        echo "<script>alert('only jpef,png file')</script>";
+        $statussql=0;
+      }
+      
+    }
+    else
+    {
+      echo "<script>alert('file exist in uploads trying another file')</script>";  ;
+    }
+    
+  }
+  if($statussql==1){ 
+    mysqli_query($con,"UPDATE `project` SET `project_file` = '$team' WHERE `project`.`project_id` = '$id'");
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -181,7 +231,7 @@ if (!isset($_SESSION['username'])) {
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="index.php" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -639,5 +689,3 @@ if (!isset($_SESSION['username'])) {
 
 </script>
 </html>
-
-

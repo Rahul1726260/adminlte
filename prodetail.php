@@ -48,7 +48,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="http://localhost:8081/php/admin/index.php?projectview">Home</a></li>
               <li class="breadcrumb-item active">Project Detail</li>
             </ol>
           </div>
@@ -142,8 +142,8 @@
               <div class="text-center mt-5 mb-3">
                 <form action="" method="POST" enctype="multipart/form-data">
                 Select Image File to Upload:
-                <input type="file" name="file" required="equired">
-                <button> Add file</button>
+                <input type="file" name="upload[]" multiple>
+                <input type="submit" value="Upload File" name="uploadfile">
                 </form>
               </div>
             </div>

@@ -61,10 +61,7 @@
                           Project Name
                       </th>
                       <th style="width: 30%">
-                          Project Description
-                      </th>
-                      <th>
-                          Project Status
+                          Project team
                       </th>
                       <th style="width: 8%" class="text-center">
                           Status
@@ -82,45 +79,50 @@
                 while($row = mysqli_fetch_assoc($result)){
                   $array=explode(",",$row['project_team']);
                   $count=sizeof($array);
-                  echo "<tr>
-                      <td>"
-                      .$row['project_id'].
-                      "</td>
-                      
-                      <td>".$row['project_name'].
-                       
-                      "</td>
-                      
-                      <td>".$row['project_desc'].
-                      
-                      "</td>
-                      <td>".$count.
-                       
-                      "</td>
-                      <td>".$row['project_status'].
-                       
-                      "</td>
+                  echo "
+                  <tr>
+                      <td>
+                         ". $row['project_id'] ."
+                      </td>
+                      <td>
+                        <a>
+                          ".$row['project_name']."
+                        </a>
+                        <br/>
+                        <small>
+                          created on ".$row['project_added']."
+                        </small>
+                      </td>                     
+                      <td>
+                      <ul class='list-inline'><li class='list-inline-item'>";
+                       for($i=0;$i<$count;$i++)
+                       {
+                          echo"<img alt='Avatar' class='table-avatar' src='dist/img/avatar3.png'>";
+                        } 
+                          echo "</li></td>
+                      <td class='project_status'>
+                          <span class='badge badge-success'>".$row['project_status']."</span>
+                      </td>
                       <td class='project-actions text-right'>
-                      <a class='btn btn-primary btn-sm' href='http://localhost:8081/php/admin/index.php?prodetail=$row[project_id]'>
-                          <i class='fas fa-folder'>
-                          </i>
-                          View
-                      </a>
-                      <a class='btn btn-info btn-sm' href='http://localhost:8081/php/admin/index.php?proedit=$row[project_id]'>
-                          <i class='fas fa-pencil-alt'>
-                          </i>
-                          Edit
-                      </a>
-                      <a class='btn btn-danger btn-sm' href='http://localhost:8081/php/admin/index.php?projectviewid=$row[project_id]'>
-                          <i class='fas fa-trash'>
-                          </i>
-                          Delete
-                      </a>
-                  </td>
-                      </tr>";
-                        }                      
-                      ?>
-                    
+                          <a class='btn btn-primary btn-sm' href='http://localhost:8081/php/admin/index.php?proedit=$row[project_id]'>
+                              <i class='fas fa-folder'>
+                              </i>
+                              Edit
+                          </a>
+                          <a class='btn btn-info btn-sm' href='http://localhost:8081/php/admin/index.php?prodetail=$row[project_id]'>
+                              <i class='fas fa-pencil-alt'>
+                              </i>
+                              view
+                          </a>
+                          <a class='btn btn-danger btn-sm' href='http://localhost:8081/php/admin/index.php?projectviewid=$row[project_id]'>
+                              <i class='fas fa-trash'>
+                              </i>
+                              Delete
+                          </a>
+                      </td>
+                  </tr>";
+                  }
+                 ?>  
           
               </tbody>
           </table>
