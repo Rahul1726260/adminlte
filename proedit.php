@@ -37,7 +37,7 @@ include 'conn.php';
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php?projectview">Home</a></li>
               <li class="breadcrumb-item active">Project edit</li>
             </ol>
           </div>
@@ -161,7 +161,7 @@ include 'conn.php';
         </div>
         <div class="row">
           <div class="col-12">
-            <a href="index.php" class="btn btn-secondary">Cancel</a>
+            <a href="index.php?projectview" class="btn btn-secondary">Cancel</a>
             <input type="submit" name="submitupdate" value="Update Porject" class="btn btn-success float-right">
           </div>
         </div>

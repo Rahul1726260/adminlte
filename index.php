@@ -1,6 +1,7 @@
 
 <?php 
   $link1= "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+  $addstat=false;
 ?>
 <!-- session code -->
 <?php 
@@ -37,8 +38,14 @@ if (!isset($_SESSION['username'])) {
       $sql1="INSERT INTO `project_budget` (`project_id`, `estimated_budget`, `amount_spent`, `estimated_duration`) VALUES ('$last_id', '$estimatedbudget', '$spentbudget', '$estimatedduration')";
       if($con->query($sql1)==True)
       {
-        echo "done";
-        //header("location:index.php");
+       //header("location:index.php?content");
+       echo '<div class="row" style="float: right;">
+        <div class="form-group"><div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfullly Added !</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button></div></div></div>'; 
+       
       }
       else
       {
@@ -102,6 +109,7 @@ if (!isset($_SESSION['username'])) {
     }
   }
 ?>
+
 <!-- project Delete -->
 <?php
   include 'conn.php';
@@ -109,28 +117,35 @@ if (!isset($_SESSION['username'])) {
   if(isset($_GET['projectviewid']))
   {
     $id = $_GET['projectviewid'];
-    //echo $id;
-    //die("abc");
     $sql1="DELETE FROM `project` WHERE `project`.`project_id`='$id'";
 
-  if (mysqli_query($con, $sql1)) 
-  {
-    $sql2= "DELETE FROM `project_budget` WHERE `project_budget`.`project_id` ='$id'";
-    if (mysqli_query($con, $sql2))
+    if (mysqli_query($con, $sql1)) 
     {
-      $delete=True;
-    }
-    else 
-    {
-      echo "Error deleting record: " . mysqli_error($con);
-    }
-    
-  } 
-  else {
-      echo "Error deleting record: " . mysqli_error($con);
+      $sql2= "DELETE FROM `project_budget` WHERE `project_budget`.`project_id` ='$id'";
+      if (mysqli_query($con, $sql2))
+      {
+        echo '<div class="row" style="float: right;">
+        <div class="form-group"><div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfullly Deleted !</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button></div></div></div>'; 
+        
+        $delete=True;
       }
+      else 
+      {
+        echo "Error deleting record: " . mysqli_error($con);
+      }
+    
+    } 
+  else 
+  {
+    echo "Error deleting record: " . mysqli_error($con);
+  }
   }
 ?>
+
 <!-- upload file on project detail page -->
 <?php
 include 'conn.php';
@@ -176,7 +191,7 @@ if(isset($_POST['uploadfile']))
     }
     else
     {
-      echo "<script>alert('file exist in uploads trying another file')</script>";  ;
+      echo "<script>alert('file exist in uploads trying another file')</script>";  
     }
     
   }
@@ -184,6 +199,13 @@ if(isset($_POST['uploadfile']))
     mysqli_query($con,"UPDATE `project` SET `project_file` = '$team' WHERE `project`.`project_id` = '$id'");
   }
 }
+?>
+<?php
+ if($addstat)
+ {
+    echo $addstat;
+   echo "<script>alert('added')</script>"; 
+ }
 ?>
 
 <!DOCTYPE html>
@@ -231,7 +253,7 @@ if(isset($_POST['uploadfile']))
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
+        <a href="index.php?content" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -412,195 +434,26 @@ if(isset($_POST['uploadfile']))
               </p>
             </a>
             <ul class="nav nav-treeview">
+              
               <li class="nav-item">
-                <a href="pages/examples/invoice.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Invoice</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/profile.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/e-commerce.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>E-commerce</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/php/admin/index.php?projectview" class="nav-link">
+                <a href=index.php?projectview  class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Projects</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/php/admin/index.php?add" class="nav-link">
+                <a href="index.php?add" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Project Add</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/php/admin/index.php?edit" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Edit</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/php/admin/index.php?projectdetail"class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Detail</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/php/admin/index.php?contacts" class="nav-link">
+                <a href="index.php?contacts" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Contacts</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/examples/faq.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>FAQ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/contact-us.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contact us</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-plus-square"></i>
-              <p>
-                Extras
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login & Register v1
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="pages/examples/login.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/register.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/forgot-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v1</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/recover-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v1</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Login & Register v2
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="pages/examples/login-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Login v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/register-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Register v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/forgot-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Forgot Password v2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/examples/recover-password-v2.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v2</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/lockscreen.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lockscreen</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/legacy-user-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Legacy User Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/language-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Language Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/404.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 404</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/500.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 500</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/pace.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Pace</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/examples/blank.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Blank Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="starter.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Starter Page</p>
-                </a>
-              </li>
+              
             </ul>
           </li>
           
@@ -611,70 +464,59 @@ if(isset($_POST['uploadfile']))
     <!-- /.sidebar -->
   </aside>
     <?php
-        if($link1=="http://localhost/php/admin/index.php?add")
+        if(strpos($link1, 'add') !== false)
         {
-            include 'projectadd.php'; 
-            //echo $link;
-            //die("abc");
+          include 'projectadd.php'; 
         }
-        if($link1=="http://localhost/php/admin/index.php?edit")
-          {
-              include 'projectedit.php'; 
-              //echo $link;
-              //die("abc");
-          }
-        if($link1=="http://localhost/php/admin/index.php")
-          {
-            include 'content.php'; 
-          }
-        if($link1=="http://localhost/php/admin/index.php?contacts")
-          {
-            include 'contacts.php'; 
-          }
+        if(strpos($link1, 'content') !== false)
+        {
+          include 'content.php'; 
+        }
+        if(strpos($link1, 'contacts') !== false)
+        {
+          include 'contacts.php'; 
+        }
         if(strpos($link1, 'projectview') !== false)
-          {
-            include 'projectview.php'; 
-          }
-
+        {
+          include 'projectview.php'; 
+        }
+ 
         if(strpos($link1 , 'prodetail') !== false)
-            {  
+        {  
               
-              include 'conn.php';
+          include 'conn.php';
 
-              if(isset($_GET['prodetail']))  
-              {
-                  $id = $_GET['prodetail'];  
-                  echo $id;
-                  
-                  $sql="SELECT *FROM `project`  WHERE `project`.`project_id` ='$id'";  
-                  $result = mysqli_query($con, $sql);
-                  $row= mysqli_fetch_array($result);
-                  $sql1="SELECT *FROM `project_budget`  WHERE `project_budget`.`project_id` ='$id'";  
-                  $result1 = mysqli_query($con, $sql1);
-                  $rowbudget= mysqli_fetch_array($result1);
-              }   
-              
-              include 'prodetail.php'; 
-            }
-    
-            if(strpos($link1, 'proedit') !== false)
-
-            {
-              
-              include 'conn.php';
-              if(isset($_GET['proedit']) )  
-              {  
-                  $id = $_GET['proedit'];  
-                  $sql="SELECT *FROM `project`  WHERE `project`.`project_id` ='$id'";  
-                  $result = mysqli_query($con, $sql);
-                  $row= mysqli_fetch_array($result);
-                  $sql1="SELECT *FROM `project_budget`  WHERE `project_budget`.`project_id` ='$id'";  
-                  $result1 = mysqli_query($con, $sql1);
-                  $rowbudget= mysqli_fetch_array($result1);
-                  
-              }
-              include 'proedit.php'; 
-            }
+          if(isset($_GET['prodetail']))  
+          {
+            $id = $_GET['prodetail'];  
+            echo $id;
+            
+            $sql="SELECT *FROM `project`  WHERE `project`.`project_id` ='$id'";  
+            $result = mysqli_query($con, $sql);
+            $row= mysqli_fetch_array($result);
+            $sql1="SELECT *FROM `project_budget`  WHERE `project_budget`.`project_id` ='$id'";  
+            $result1 = mysqli_query($con, $sql1);
+            $rowbudget= mysqli_fetch_array($result1);
+          }   
+            
+          include 'prodetail.php'; 
+        }
+  
+        if(strpos($link1, 'proedit') !== false)
+        {
+          include 'conn.php';
+          if(isset($_GET['proedit']) )  
+          {  
+            $id = $_GET['proedit'];  
+            $sql="SELECT *FROM `project`  WHERE `project`.`project_id` ='$id'";  
+            $result = mysqli_query($con, $sql);
+            $row= mysqli_fetch_array($result);
+            $sql1="SELECT *FROM `project_budget`  WHERE `project_budget`.`project_id` ='$id'";  
+            $result1 = mysqli_query($con, $sql1);
+            $rowbudget= mysqli_fetch_array($result1);
+          }
+          include 'proedit.php'; 
+        }
     ?>
   <footer class="main-footer">
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>

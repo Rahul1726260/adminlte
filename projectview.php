@@ -25,7 +25,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php?content">Home</a></li>
               <li class="breadcrumb-item active">Projects</li>
             </ol>
           </div>
@@ -104,17 +104,17 @@
                           <span class='badge badge-success'>".$row['project_status']."</span>
                       </td>
                       <td class='project-actions text-right'>
-                          <a class='btn btn-primary btn-sm' href='http://localhost:8081/php/admin/index.php?proedit=$row[project_id]'>
+                          <a class='btn btn-primary btn-sm' href='index.php?proedit=$row[project_id]'>
                               <i class='fas fa-folder'>
                               </i>
                               Edit
                           </a>
-                          <a class='btn btn-info btn-sm' href='http://localhost:8081/php/admin/index.php?prodetail=$row[project_id]'>
+                          <a class='btn btn-info btn-sm' href='index.php?prodetail=$row[project_id]'>
                               <i class='fas fa-pencil-alt'>
                               </i>
                               view
                           </a>
-                          <a class='btn btn-danger btn-sm' href='http://localhost:8081/php/admin/index.php?projectviewid=$row[project_id]'>
+                          <a class='btn btn-danger btn-sm' href='index.php?projectviewid=$row[project_id]'>
                               <i class='fas fa-trash'>
                               </i>
                               Delete

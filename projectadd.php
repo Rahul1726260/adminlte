@@ -27,7 +27,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php?content">Home</a></li>
               <li class="breadcrumb-item active">Project Add</li>
             </ol>
           </div>
@@ -129,7 +129,7 @@
         </div>
         <div class="row">
           <div class="col-12">
-            <a href="index.php" class="btn btn-secondary">Cancel</a>
+            <a href="index.php?content" class="btn btn-secondary">Cancel</a>
             <input type="submit" name="submitadd" value="Create new Porject" class="btn btn-success float-right toastadd">
           </div>
         </div>
