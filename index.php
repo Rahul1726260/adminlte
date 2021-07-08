@@ -1,18 +1,16 @@
-
 <?php 
   $link1= "http://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
   $addstat=false;
 ?>
+
 <!-- session code -->
 <?php 
-
 session_start();
-
 if (!isset($_SESSION['username'])) {
   header("Location: login.php");
 }
-
 ?>
+
 <!-- Add a new project -->
 <?php
   include 'conn.php';
@@ -56,12 +54,9 @@ if (!isset($_SESSION['username'])) {
     {
         echo "ERROR $sql <br> $con->error";
     }
-
-    
-      
-  
   }
 ?>
+
 <!-- edit or update a project -->
 <?php
   include 'conn.php';
@@ -88,7 +83,7 @@ if (!isset($_SESSION['username'])) {
         $sql2="UPDATE `project_budget` SET `estimated_budget` = '$estimatedbudget',`amount_spent` = '$spentbudget',`estimated_duration` = '$estimatedduration' WHERE `project_budget`.`project_id` = '$id'";
         if($con->query($sql2)==True)
         {
-          header("Location: index.php");
+          header("Location: index.php?content");
         }
         else
         {
@@ -100,7 +95,7 @@ if (!isset($_SESSION['username'])) {
       {
         $sqlinsert="INSERT INTO `project_budget` (`project_id`, `estimated_budget`, `amount_spent`, `estimated_duration`) VALUES ('$id', '$estimatedbudget', '$spentbudget', '$estimatedduration')";
         $insert= mysqli_query($con, $sqlinsert);
-        header("Location: index.php");
+        header("Location: index.php?content");
       }        
     }
     else
@@ -128,7 +123,7 @@ if (!isset($_SESSION['username'])) {
         <div class="form-group"><div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Successfullly Deleted !</strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <span aria-hidden="true">×</span>
         </button></div></div></div>'; 
         
         $delete=True;
@@ -200,6 +195,7 @@ if(isset($_POST['uploadfile']))
   }
 }
 ?>
+
 <?php
  if($addstat)
  {
@@ -402,7 +398,7 @@ if(isset($_POST['uploadfile']))
           <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">Rahul</a>
         </div>
       </div>
 

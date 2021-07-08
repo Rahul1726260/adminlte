@@ -130,7 +130,7 @@
         <div class="row">
           <div class="col-12">
             <a href="index.php?content" class="btn btn-secondary">Cancel</a>
-            <input type="submit" name="submitadd" value="Create new Porject" class="btn btn-success float-right toastadd">
+            <input type="submit" name="submitadd" value="Create new Project" class="btn btn-success float-right toastadd">
           </div>
         </div>
         </form>

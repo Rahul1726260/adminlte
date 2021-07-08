@@ -73,7 +73,7 @@ if (isset($_POST['submit'])) {
 
       <form action="" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="username" name="username">
+          <input type="text" class="form-control" placeholder="username" name="username" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -81,7 +81,7 @@ if (isset($_POST['submit'])) {
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="email">
+          <input type="email" class="form-control" placeholder="Email" name="email" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) {
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="password">
+          <input type="password" class="form-control" placeholder="Password" name="password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -97,7 +97,7 @@ if (isset($_POST['submit'])) {
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Retype password" name="confirmpass">
+          <input type="password" class="form-control" placeholder="Retype password" name="confirmpass" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -121,17 +121,7 @@ if (isset($_POST['submit'])) {
         </div>
       </form>
 
-      <div class="social-auth-links text-center">
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i>
-          Sign up using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus mr-2"></i>
-          Sign up using Google+
-        </a>
-      </div>
-
+      
       <a href="login.php" class="text-center">I already have a membership</a>
     </div>
     <!-- /.form-box -->
